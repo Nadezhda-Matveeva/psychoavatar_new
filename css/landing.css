@@ -94,21 +94,55 @@ body.page-landing {
 }
 
 .hero__orb img,
-.hero__orb video {
+.hero__orb video,
+.hero__orb .avatar-matte {
     width: 72%;
     height: auto;
     object-fit: contain;
     background: transparent;
+}
+
+.hero__orb img {
     filter: drop-shadow(0 14px 28px rgba(60, 50, 40, 0.16));
+}
+
+.hero__orb .avatar-matte {
+    position: relative;
+    display: block;
+    line-height: 0;
+}
+
+.hero__orb .avatar-matte__source {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    filter: none;
+    object-fit: contain;
+}
+
+.hero__orb .avatar-matte__canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: transparent;
+    filter: drop-shadow(0 12px 22px rgba(60, 50, 40, 0.18));
 }
 
 .hero__orb video {
     display: block;
 }
 
-[data-theme="dark"] .hero__orb img,
-[data-theme="dark"] .hero__orb video {
+[data-theme="dark"] .hero__orb img {
     filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.5));
+}
+
+[data-theme="dark"] .hero__orb .avatar-matte__canvas {
+    /* Только тёмная тень — без усиления светлого контура */
+    filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.62));
 }
 
 @keyframes orbFloat {
@@ -196,13 +230,47 @@ body.page-landing {
 }
 
 .state img,
-.state video {
+.state video,
+.state .avatar-matte {
     width: 96px;
     height: 96px;
     object-fit: contain;
     margin-bottom: 10px;
     background: transparent;
+}
+
+.state img {
     filter: drop-shadow(0 8px 14px rgba(60, 50, 40, 0.12));
+}
+
+.state .avatar-matte {
+    position: relative;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 0;
+    /* В сетке состояний сохраняем квадратный слот, кадр внутри — contain */
+    aspect-ratio: 1;
+}
+
+.state .avatar-matte__source {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    filter: none;
+    object-fit: contain;
+}
+
+.state .avatar-matte__canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    filter: drop-shadow(0 7px 12px rgba(60, 50, 40, 0.14));
 }
 
 .state video {
@@ -211,9 +279,12 @@ body.page-landing {
     margin-right: auto;
 }
 
-[data-theme="dark"] .state img,
-[data-theme="dark"] .state video {
+[data-theme="dark"] .state img {
     filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.4));
+}
+
+[data-theme="dark"] .state .avatar-matte__canvas {
+    filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.55));
 }
 
 .state__name {

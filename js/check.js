@@ -524,6 +524,33 @@
             }
         }
 
+        // Видимый узел для анимации: обёртка matte (canvas) или само медиа
+        function getAvatarVisual(mediaEl) {
+            if (!mediaEl) return null;
+            return mediaEl.closest('.avatar-matte') || mediaEl;
+        }
+
+        // Узел, который нужно заменить при смене img ↔ video
+        function getAvatarMount(mediaEl) {
+            if (!mediaEl) return null;
+            return mediaEl.closest('.avatar-matte') || mediaEl;
+        }
+
+        function pulseAvatarVisual(mediaEl) {
+            const visual = getAvatarVisual(mediaEl);
+            if (!visual) return;
+            visual.classList.remove('is-appeared');
+            void visual.offsetWidth;
+            visual.classList.add('is-appeared');
+        }
+
+        function attachExcellentMatte(videoEl) {
+            if (!videoEl || videoEl.tagName !== 'VIDEO') return;
+            if (window.AvatarMatte && typeof window.AvatarMatte.attach === 'function') {
+                window.AvatarMatte.attach(videoEl);
+            }
+        }
+
         // Обновление медиа аватара с короткой анимацией смены
         function updateAvatar(score, maxPossible) {
             const container = document.getElementById('avatarContainer');
@@ -544,15 +571,14 @@
 
             // Если медиа уже то же — только лёгкий акцент без перезагрузки
             if (currentSrc === media.src && currentTag === media.type) {
-                avatarMedia.classList.remove('is-appeared');
-                void avatarMedia.offsetWidth;
-                avatarMedia.classList.add('is-appeared');
+                pulseAvatarVisual(avatarMedia);
                 playAvatarVideo(avatarMedia);
                 return;
             }
 
-            avatarMedia.classList.remove('is-appeared');
-            avatarMedia.classList.add('is-changing');
+            const visual = getAvatarVisual(avatarMedia);
+            visual.classList.remove('is-appeared');
+            visual.classList.add('is-changing');
 
             window.setTimeout(function() {
                 avatarMedia = document.getElementById('avatarImage');
@@ -561,22 +587,27 @@
                 const needsSwap = avatarMedia.tagName.toLowerCase() !== media.type;
                 if (needsSwap) {
                     const nextEl = createAvatarMediaElement(media, label);
-                    nextEl.classList.add('is-changing');
-                    avatarMedia.replaceWith(nextEl);
+                    const mount = getAvatarMount(avatarMedia);
+                    mount.replaceWith(nextEl);
                     avatarMedia = nextEl;
+                    if (media.type === 'video') {
+                        attachExcellentMatte(avatarMedia);
+                    }
                 } else {
                     avatarMedia.src = media.src;
                     avatarMedia.setAttribute('aria-label', 'Аватар: ' + label);
                     if (media.type === 'img') {
                         avatarMedia.alt = 'Аватар: ' + label;
                     } else {
+                        attachExcellentMatte(avatarMedia);
                         playAvatarVideo(avatarMedia);
                     }
                 }
 
-                avatarMedia.classList.remove('is-changing');
-                void avatarMedia.offsetWidth;
-                avatarMedia.classList.add('is-appeared');
+                const nextVisual = getAvatarVisual(avatarMedia);
+                nextVisual.classList.remove('is-changing');
+                void nextVisual.offsetWidth;
+                nextVisual.classList.add('is-appeared');
                 playAvatarVideo(avatarMedia);
             }, 220);
         }
