@@ -207,8 +207,10 @@ a:hover {
 
 .site-nav__links {
     display: flex;
-    gap: 8px;
+    flex-wrap: wrap;
+    gap: 6px;
     list-style: none;
+    justify-content: flex-end;
 }
 
 .site-nav__links a {
@@ -218,7 +220,7 @@ a:hover {
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--text-muted);
-    padding: 8px 14px;
+    padding: 8px 12px;
     border-radius: 999px;
     transition: background 0.2s ease, color 0.2s ease;
 }

@@ -572,7 +572,23 @@ body.page-check > .site-nav {
             letter-spacing: 0.06em;
             text-transform: uppercase;
             color: var(--text-heading);
+            margin-bottom: 8px;
+        }
+
+        .history-more {
+            font-size: 13px;
+            color: var(--text-soft);
             margin-bottom: 16px;
+            line-height: 1.45;
+        }
+
+        .history-more a {
+            font-weight: 600;
+            color: var(--text-heading);
+        }
+
+        .history-more a:hover {
+            color: var(--peach-deep);
         }
 
         .history-bars {

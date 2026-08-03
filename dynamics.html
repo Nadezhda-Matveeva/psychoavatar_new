@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Динамика — Мой Аватар</title>
+    <meta name="description" content="Динамика состояния за 30 дней: график, радар по сферам, красные флаги, инсайты и PDF-отчёт." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Montserrat:wght@300;400;500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/shared.css" />
+    <link rel="stylesheet" href="css/dynamics.css" />
+</head>
+<body class="page-dynamics">
+
+    <nav class="site-nav" aria-label="Основная навигация">
+        <a class="site-nav__brand" href="index.html">Мой Аватар</a>
+        <ul class="site-nav__links">
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="check.html">Чек-лист</a></li>
+            <li><a href="dynamics.html" class="is-active">Динамика</a></li>
+        </ul>
+    </nav>
+
+    <div class="container" id="app">
+
+        <header class="header">
+            <div class="eyebrow">забота о себе</div>
+            <h1>
+                Мой Аватар
+                <small>динамика</small>
+            </h1>
+            <p class="page-lead">
+                Смотрите тренды, а не случайные колебания: 30 последних оценок, сферы жизни и ранние сигналы.
+            </p>
+        </header>
+
+        <!-- Пустое состояние -->
+        <div id="emptyState" class="empty-panel" hidden>
+            <p class="empty-panel__title">Пока нет данных для динамики</p>
+            <p class="empty-panel__text">
+                Пройдите чек-лист хотя бы несколько раз — здесь появятся график, радар по сферам и инсайты.
+            </p>
+            <a class="btn" href="check.html">Открыть чек-лист</a>
+        </div>
+
+        <div id="dynamicsContent" hidden>
+
+            <!-- График 30 дней -->
+            <section class="dyn-section" aria-labelledby="trendTitle">
+                <div class="dyn-section__head">
+                    <h2 id="trendTitle" class="dyn-section__title">Общее состояние</h2>
+                    <p class="dyn-section__meta" id="trendMeta">Последние оценки</p>
+                </div>
+                <div class="chart-shell">
+                    <canvas id="trendChart" width="720" height="280" role="img" aria-label="График общего состояния за последние оценки"></canvas>
+                </div>
+                <div class="trend-stats" id="trendStats"></div>
+            </section>
+
+            <!-- Радар + флаги -->
+            <div class="dyn-grid">
+                <section class="dyn-section" aria-labelledby="radarTitle">
+                    <div class="dyn-section__head">
+                        <h2 id="radarTitle" class="dyn-section__title">Радар сфер</h2>
+                        <p class="dyn-section__meta">По всем заполненным данным</p>
+                    </div>
+                    <div class="chart-shell chart-shell--radar">
+                        <canvas id="radarChart" width="360" height="360" role="img" aria-label="Лепестковая диаграмма по шести сферам"></canvas>
+                    </div>
+                    <ul class="sphere-legend" id="sphereLegend"></ul>
+                </section>
+
+                <section class="dyn-section" aria-labelledby="flagsTitle">
+                    <div class="dyn-section__head">
+                        <h2 id="flagsTitle" class="dyn-section__title">Красные флаги</h2>
+                        <p class="dyn-section__meta" id="flagsMeta">За выбранный период</p>
+                    </div>
+                    <div class="flag-stats" id="flagStats"></div>
+                    <div class="flag-breakdown" id="flagBreakdown"></div>
+                </section>
+            </div>
+
+            <!-- Инсайты -->
+            <section class="dyn-section" aria-labelledby="insightsTitle">
+                <div class="dyn-section__head">
+                    <h2 id="insightsTitle" class="dyn-section__title">Инсайты</h2>
+                    <p class="dyn-section__meta">Короткие выводы по вашим данным</p>
+                </div>
+                <ul class="insights-list" id="insightsList"></ul>
+            </section>
+
+            <!-- Экспорт -->
+            <section class="dyn-section dyn-section--export" aria-labelledby="exportTitle">
+                <div class="dyn-section__head">
+                    <h2 id="exportTitle" class="dyn-section__title">Отчёт за месяц</h2>
+                    <p class="dyn-section__meta">
+                        PDF с диаграммой и параметрами, у которых средняя оценка 1–2 балла
+                    </p>
+                </div>
+                <button class="btn btn-report" id="exportPdfBtn" type="button">
+                    Скачать отчёт за месяц
+                </button>
+                <p class="export-note" id="exportNote" hidden></p>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Скрытый шаблон для PDF (вне экрана) -->
+    <div id="pdfReport" class="pdf-report" aria-hidden="true"></div>
+
+    <footer class="site-footer">
+        <p>Динамика строится только из ваших локальных записей — данные никуда не отправляются.</p>
+        <p><a href="check.html">Пройти чек-лист</a> · <a href="index.html">На главную</a></p>
+    </footer>
+
+    <audio id="bgMusic" src="audio/c-major-drift.mp3" preload="auto" loop playsinline></audio>
+
+    <div class="fab-dock">
+        <button class="music-toggle" id="musicToggle" type="button" aria-label="Выключить музыку" title="Выключить музыку" aria-pressed="false">
+            <svg class="icon-music-on" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M11 5L6 9H3v6h3l5 4V5z" />
+                <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                <path d="M18 6a8.5 8.5 0 0 1 0 12" />
+            </svg>
+            <svg class="icon-music-off" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M11 5L6 9H3v6h3l5 4V5z" />
+                <path d="M22 9l-6 6M16 9l6 6" />
+            </svg>
+        </button>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Переключить тему" title="Сменить тему">
+            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5z" />
+            </svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="4.5" />
+                <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.1 5.1l1.6 1.6M17.3 17.3l1.6 1.6M18.9 5.1l-1.6 1.6M6.7 17.3l-1.6 1.6" />
+            </svg>
+        </button>
+    </div>
+
+    <script src="js/vendor/html2canvas.min.js"></script>
+    <script src="js/vendor/jspdf.umd.min.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/music.js"></script>
+    <script src="js/dynamics.js"></script>
+</body>
+</html>
