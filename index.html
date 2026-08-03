@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Мой Аватар — забота о своём состоянии</title>
+    <meta name="description" content="Чек-лист для осознанного управления состоянием: профилактика эмоционального выгорания и ранних сигналов дисбаланса." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Montserrat:wght@300;400;500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/shared.css" />
+    <link rel="stylesheet" href="css/landing.css" />
+</head>
+<body class="page-landing">
+
+    <!-- Навигация -->
+    <nav class="site-nav" aria-label="Основная навигация">
+        <a class="site-nav__brand" href="index.html">Мой Аватар</a>
+        <ul class="site-nav__links">
+            <li><a href="index.html" class="is-active">Главная</a></li>
+            <li><a href="check.html">Чек-лист</a></li>
+        </ul>
+    </nav>
+
+    <main class="landing">
+
+        <!-- Hero: бренд + смысл + CTA -->
+        <section class="hero">
+            <div class="hero__content">
+                <p class="hero__eyebrow">забота о себе</p>
+                <h1 class="hero__title">Мой Аватар</h1>
+                <p class="hero__script">замечайте себя вовремя</p>
+                <p class="hero__text">
+                    Небольшой чек-лист состояния для профилактики эмоционального выгорания
+                    и ранних сигналов психосоматики. Без самодиагностики — с вниманием к себе.
+                </p>
+                <div class="hero__actions">
+                    <a class="btn" href="check.html">Пройти чек-лист</a>
+                    <a class="btn btn-secondary" href="#how">Как это работает</a>
+                </div>
+            </div>
+            <div class="hero__visual" aria-hidden="true">
+                <div class="hero__orb">
+                    <img src="images/avatar-excellent.png" alt="" width="240" height="240" />
+                </div>
+            </div>
+        </section>
+
+        <!-- Как это работает -->
+        <section class="landing-section" id="how">
+            <h2 class="landing-section__title">Как это работает</h2>
+            <p class="landing-section__lead">
+                Три спокойных шага — и вы видите не только сегодняшний балл, но и динамику недели.
+            </p>
+            <div class="steps">
+                <article class="step">
+                    <div class="step__num">01</div>
+                    <h3 class="step__title">Ответьте на вопросы</h3>
+                    <p class="step__text">Сон, питание, тело, стресс, время для себя и поддержка — по шкале от 1 до 4.</p>
+                </article>
+                <article class="step">
+                    <div class="step__num">02</div>
+                    <h3 class="step__title">Увидьте аватара</h3>
+                    <p class="step__text">Итог дня отражается в образе и рекомендации. Ранние сигналы подскажут, куда смотреть.</p>
+                </article>
+                <article class="step">
+                    <div class="step__num">03</div>
+                    <h3 class="step__title">Следите за трендом</h3>
+                    <p class="step__text">История последних 7 дней и недельный отчёт помогают замечать изменения вовремя.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Состояния аватара -->
+        <section class="landing-section" id="states">
+            <h2 class="landing-section__title">Состояния аватара</h2>
+            <div class="states">
+                <figure class="state">
+                    <img src="images/avatar-excellent.png" alt="Аватар: отлично" width="96" height="96" />
+                    <figcaption class="state__name">Отлично</figcaption>
+                    <div class="state__range">70–80 · в ресурсе</div>
+                </figure>
+                <figure class="state">
+                    <img src="images/avatar-good.png" alt="Аватар: хорошо" width="96" height="96" />
+                    <figcaption class="state__name">Хорошо</figcaption>
+                    <div class="state__range">55–69 · зоны роста</div>
+                </figure>
+                <figure class="state">
+                    <img src="images/avatar-medium.png" alt="Аватар: средний" width="96" height="96" />
+                    <figcaption class="state__name">Средний</figcaption>
+                    <div class="state__range">40–54 · риск выгорания</div>
+                </figure>
+                <figure class="state">
+                    <img src="images/avatar-low.png" alt="Аватар: критический" width="96" height="96" />
+                    <figcaption class="state__name">Критический</figcaption>
+                    <div class="state__range">&lt; 40 · нужна пауза</div>
+                </figure>
+            </div>
+        </section>
+
+        <!-- Финальный призыв -->
+        <section class="cta-band">
+            <h2 class="cta-band__title">Начните с сегодняшнего дня</h2>
+            <p class="cta-band__text">
+                Вы не обязаны быть идеальной или идеальным каждый день.
+                Но вы можете научиться замечать себя.
+            </p>
+            <a class="btn" href="check.html">Открыть чек-лист</a>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <p>Этот чек-лист — не для самодиагностики, а для осознанного управления своим состоянием.</p>
+        <p><a href="check.html">Перейти к оценке</a> · Мой Аватар</p>
+    </footer>
+
+    <!-- Фоновая музыка (зациклена) -->
+    <audio id="bgMusic" src="audio/c-major-drift.mp3" preload="auto" loop playsinline></audio>
+
+    <!-- Кнопки: музыка + тема -->
+    <div class="fab-dock">
+        <button class="music-toggle" id="musicToggle" type="button" aria-label="Выключить музыку" title="Выключить музыку" aria-pressed="false">
+            <svg class="icon-music-on" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M11 5L6 9H3v6h3l5 4V5z" />
+                <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                <path d="M18 6a8.5 8.5 0 0 1 0 12" />
+            </svg>
+            <svg class="icon-music-off" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M11 5L6 9H3v6h3l5 4V5z" />
+                <path d="M22 9l-6 6M16 9l6 6" />
+            </svg>
+        </button>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Переключить тему" title="Сменить тему">
+            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5z" />
+            </svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="4.5" />
+                <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.1 5.1l1.6 1.6M17.3 17.3l1.6 1.6M18.9 5.1l-1.6 1.6M6.7 17.3l-1.6 1.6" />
+            </svg>
+        </button>
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script src="js/music.js"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Чек-лист — Мой Аватар</title>
+    <meta name="description" content="Ежедневный чек-лист состояния: оценка параметров, аватар, рекомендации и история за 7 дней." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Montserrat:wght@300;400;500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/shared.css" />
+    <link rel="stylesheet" href="css/check.css" />
+</head>
+<body class="page-check">
+
+    <!-- Навигация -->
+    <nav class="site-nav" aria-label="Основная навигация">
+        <a class="site-nav__brand" href="index.html">Мой Аватар</a>
+        <ul class="site-nav__links">
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="check.html" class="is-active">Чек-лист</a></li>
+        </ul>
+    </nav>
+
+    <!-- ============================================================
+         ОСНОВНОЕ ПРИЛОЖЕНИЕ
+         ============================================================ -->
+    <div class="container" id="app">
+
+        <!-- ШАПКА -->
+        <header class="header">
+            <div class="eyebrow">забота о себе</div>
+            <h1>
+                <span class="brand-mark" aria-hidden="true">🌱</span>
+                Мой Аватар
+                <small>оценка состояния</small>
+            </h1>
+        </header>
+
+        <!-- ДИСКЛЕЙМЕР: под заголовком -->
+        <aside class="disclaimer">
+            <p>Этот чек-лист — не для самодиагностики, а для осознанного управления своим состоянием. Каждый параметр — это ранний сигнал, который помогает вовремя заметить дисбаланс и предотвратить более серьёзные нарушения.</p>
+            <p>Вы не обязаны быть идеальной / ым каждый день. Но вы можете научиться замечать себя 🤍</p>
+        </aside>
+
+        <!-- АВАТАР: всегда виден, меняется по итоговому баллу -->
+        <div class="avatar-intro">
+            <div class="avatar-col">
+                <div id="avatarContainer">
+                    <img
+                        id="avatarImage"
+                        src="images/avatar-medium.png"
+                        alt="Аватар состояния"
+                        width="120"
+                        height="120"
+                    />
+                </div>
+                <!-- Красные флаги (ранние сигналы) -->
+                <div id="avatarFlags" class="avatar-flags" aria-live="polite"></div>
+            </div>
+            <p class="subhead">
+                Ответьте на вопросы чек-листа, чтобы оценить состояние и получить рекомендации
+            </p>
+        </div>
+
+        <!-- ВОПРОСЫ: рендерятся из JavaScript -->
+        <div id="questionsContainer"></div>
+
+        <!-- КНОПКИ УПРАВЛЕНИЯ -->
+        <div class="btn-group">
+            <button class="btn" id="calcBtn" type="button">✨ Оценить состояние</button>
+            <button class="btn btn-secondary" id="resetBtn" type="button">↺ Сбросить</button>
+            <button class="btn btn-report" id="reportBtn" type="button">📊 Отчёт за неделю</button>
+            <button class="btn btn-danger" id="clearHistoryBtn" type="button">🗑️ Очистить историю</button>
+        </div>
+
+        <!-- БЛОК РЕЗУЛЬТАТА -->
+        <div class="result-card" id="resultCard">
+            <div class="result-level" id="resultLevel">—</div>
+            <div class="result-score" id="resultScore">Баллы: 0</div>
+            <div class="result-recommendation" id="resultRecommendation">
+                Здесь будет ваша рекомендация.
+            </div>
+            <div class="result-tips" id="resultTips"></div>
+        </div>
+
+        <!-- НЕДЕЛЬНЫЙ ОТЧЁТ -->
+        <div class="report-card" id="reportCard">
+            <div class="report-title">📋 Отчёт за последнюю неделю</div>
+            <div id="reportContent">
+                <div class="report-empty">Нет данных для отчёта. Пройдите тест несколько раз.</div>
+            </div>
+        </div>
+
+        <!-- ИСТОРИЯ -->
+        <section class="history-section">
+            <h2 class="history-title">📊 Последние 7 дней</h2>
+            <div id="historyContainer">
+                <div class="empty-history">Нет данных. Пройдите тест, чтобы заполнить историю.</div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Фоновая музыка (зациклена) -->
+    <audio id="bgMusic" src="audio/c-major-drift.mp3" preload="auto" loop playsinline></audio>
+
+    <!-- Кнопки: музыка + тема -->
+    <div class="fab-dock">
+        <button class="music-toggle" id="musicToggle" type="button" aria-label="Выключить музыку" title="Выключить музыку" aria-pressed="false">
+            <svg class="icon-music-on" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M11 5L6 9H3v6h3l5 4V5z" />
+                <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                <path d="M18 6a8.5 8.5 0 0 1 0 12" />
+            </svg>
+            <svg class="icon-music-off" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M11 5L6 9H3v6h3l5 4V5z" />
+                <path d="M22 9l-6 6M16 9l6 6" />
+            </svg>
+        </button>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Переключить тему" title="Сменить тему">
+            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5z" />
+            </svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="4.5" />
+                <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.1 5.1l1.6 1.6M17.3 17.3l1.6 1.6M18.9 5.1l-1.6 1.6M6.7 17.3l-1.6 1.6" />
+            </svg>
+        </button>
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script src="js/music.js"></script>
+    <script src="js/check.js"></script>
+</body>
+</html>
