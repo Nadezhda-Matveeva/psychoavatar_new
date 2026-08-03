@@ -93,7 +93,8 @@ body.page-landing {
     animation: orbFloat 7s ease-in-out infinite;
 }
 
-.hero__orb img {
+.hero__orb img,
+.hero__orb video {
     width: 72%;
     height: auto;
     object-fit: contain;
@@ -101,7 +102,12 @@ body.page-landing {
     filter: drop-shadow(0 14px 28px rgba(60, 50, 40, 0.16));
 }
 
-[data-theme="dark"] .hero__orb img {
+.hero__orb video {
+    display: block;
+}
+
+[data-theme="dark"] .hero__orb img,
+[data-theme="dark"] .hero__orb video {
     filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.5));
 }
 
@@ -189,7 +195,8 @@ body.page-landing {
     transform: translateY(-4px);
 }
 
-.state img {
+.state img,
+.state video {
     width: 96px;
     height: 96px;
     object-fit: contain;
@@ -198,7 +205,14 @@ body.page-landing {
     filter: drop-shadow(0 8px 14px rgba(60, 50, 40, 0.12));
 }
 
-[data-theme="dark"] .state img {
+.state video {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+[data-theme="dark"] .state img,
+[data-theme="dark"] .state video {
     filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.4));
 }
 

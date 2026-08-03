@@ -484,37 +484,100 @@
             }).join('');
         }
 
-        // Обновление картинки аватара с короткой анимацией смены
+        // Медиа аватара: для «отлично» — зацикленное видео, иначе PNG
+        function getAvatarMedia(state) {
+            if (state === 'excellent') {
+                return { type: 'video', src: 'images/avatar-excellent.webm' };
+            }
+            return { type: 'img', src: `images/avatar-${state}.png` };
+        }
+
+        function createAvatarMediaElement(media, label) {
+            const el = document.createElement(media.type);
+            el.id = 'avatarImage';
+            el.width = 120;
+            el.height = 120;
+            el.src = media.src;
+            el.setAttribute('aria-label', 'Аватар: ' + label);
+
+            if (media.type === 'video') {
+                el.autoplay = true;
+                el.muted = true;
+                el.loop = true;
+                el.playsInline = true;
+                el.setAttribute('playsinline', '');
+                el.setAttribute('muted', '');
+                el.setAttribute('data-avatar-video', '');
+                el.removeAttribute('controls');
+            } else {
+                el.alt = 'Аватар: ' + label;
+            }
+
+            return el;
+        }
+
+        function playAvatarVideo(el) {
+            if (!el || el.tagName !== 'VIDEO') return;
+            const playPromise = el.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+                playPromise.catch(function() { /* autoplay может быть заблокирован до жеста */ });
+            }
+        }
+
+        // Обновление медиа аватара с короткой анимацией смены
         function updateAvatar(score, maxPossible) {
-            const avatarImage = document.getElementById('avatarImage');
-            if (!avatarImage) return;
+            const container = document.getElementById('avatarContainer');
+            let avatarMedia = document.getElementById('avatarImage');
+            if (!container || !avatarMedia) return;
 
             const state = getAvatarState(score, maxPossible);
-            const nextSrc = `images/avatar-${state}.png`;
+            const media = getAvatarMedia(state);
             const stateLabels = {
                 excellent: 'отличное состояние',
                 good: 'хорошее состояние',
                 medium: 'среднее состояние',
                 low: 'критическое состояние'
             };
+            const label = stateLabels[state];
+            const currentTag = avatarMedia.tagName.toLowerCase();
+            const currentSrc = avatarMedia.getAttribute('src');
 
-            // Если картинка уже та же — только лёгкий акцент без перезагрузки
-            if (avatarImage.getAttribute('src') === nextSrc) {
-                avatarImage.classList.remove('is-appeared');
-                void avatarImage.offsetWidth;
-                avatarImage.classList.add('is-appeared');
+            // Если медиа уже то же — только лёгкий акцент без перезагрузки
+            if (currentSrc === media.src && currentTag === media.type) {
+                avatarMedia.classList.remove('is-appeared');
+                void avatarMedia.offsetWidth;
+                avatarMedia.classList.add('is-appeared');
+                playAvatarVideo(avatarMedia);
                 return;
             }
 
-            avatarImage.classList.remove('is-appeared');
-            avatarImage.classList.add('is-changing');
+            avatarMedia.classList.remove('is-appeared');
+            avatarMedia.classList.add('is-changing');
 
             window.setTimeout(function() {
-                avatarImage.src = nextSrc;
-                avatarImage.alt = 'Аватар: ' + stateLabels[state];
-                avatarImage.classList.remove('is-changing');
-                void avatarImage.offsetWidth;
-                avatarImage.classList.add('is-appeared');
+                avatarMedia = document.getElementById('avatarImage');
+                if (!avatarMedia) return;
+
+                const needsSwap = avatarMedia.tagName.toLowerCase() !== media.type;
+                if (needsSwap) {
+                    const nextEl = createAvatarMediaElement(media, label);
+                    nextEl.classList.add('is-changing');
+                    avatarMedia.replaceWith(nextEl);
+                    avatarMedia = nextEl;
+                } else {
+                    avatarMedia.src = media.src;
+                    avatarMedia.setAttribute('aria-label', 'Аватар: ' + label);
+                    if (media.type === 'img') {
+                        avatarMedia.alt = 'Аватар: ' + label;
+                    } else {
+                        playAvatarVideo(avatarMedia);
+                    }
+                }
+
+                avatarMedia.classList.remove('is-changing');
+                void avatarMedia.offsetWidth;
+                avatarMedia.classList.add('is-appeared');
+                playAvatarVideo(avatarMedia);
             }, 220);
         }
 

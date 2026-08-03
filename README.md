@@ -29,7 +29,7 @@ npx --yes serve .
     theme.js       # светлая / тёмная тема
     check.js       # логика оценки, аватара, отчёта, истории
   images/
-    avatar-excellent.png
+    avatar-excellent.webm  # зацикленное видео для уровня «Отлично»
     avatar-good.png
     avatar-medium.png
     avatar-low.png
