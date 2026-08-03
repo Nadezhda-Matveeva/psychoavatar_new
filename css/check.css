@@ -149,57 +149,18 @@ body.page-check > .site-nav {
             border-radius: 0;
         }
 
-        /* Обёртка очищенного видео-аватара — тот же слот 120×120, contain внутри */
-        #avatarContainer .avatar-matte {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            max-width: 120px;
-            max-height: 120px;
-            flex-shrink: 0;
-            line-height: 0;
-            transition: opacity 0.28s ease-in-out, transform 0.28s ease-in-out;
-        }
-
-        #avatarContainer .avatar-matte__source {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            pointer-events: none;
-            filter: none;
-            object-fit: contain;
-        }
-
-        #avatarContainer .avatar-matte__canvas {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            background: transparent;
-            filter: drop-shadow(0 8px 14px rgba(60, 50, 40, 0.16));
-        }
-
-        [data-theme="dark"] #avatarImage:not([data-avatar-video]) {
+        [data-theme="dark"] #avatarImage {
             filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.45));
         }
 
-        [data-theme="dark"] #avatarContainer .avatar-matte__canvas {
-            filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.58));
-        }
-
         /* Плавное исчезновение перед сменой медиа */
-        #avatarImage.is-changing,
-        #avatarContainer .avatar-matte.is-changing {
+        #avatarImage.is-changing {
             opacity: 0;
             transform: scale(0.88);
         }
 
         /* Мягкое появление нового аватара */
-        #avatarImage.is-appeared,
-        #avatarContainer .avatar-matte.is-appeared {
+        #avatarImage.is-appeared {
             animation: avatarPop 0.5s ease-in-out;
         }
 
@@ -704,8 +665,7 @@ body.page-check > .site-nav {
             .avatar-col { max-width: none; width: 100%; }
             .subhead { max-width: none; }
             #avatarContainer,
-            #avatarImage,
-            #avatarContainer .avatar-matte {
+            #avatarImage {
                 width: 100px;
                 height: 100px;
                 max-width: 100px;
